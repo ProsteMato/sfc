@@ -19,7 +19,7 @@ print_calculation = load_input("Výpis výpočtov [default True]: ", lambda v: v
 min_input_size = cnn_stride + kernel_depth - 2 * cnn_zero_padding
 
 input_depth = load_input("Veľkosť dimenzie vstupu [min 1, default 1]: ", int, 1, lambda v: int(v) > 0)
-input_size = load_input(f"Výška a šírka vstupu [minimum {min_input_size}, default {min_input_size+2}]: ", int, min_input_size + 2, lambda v: v >= min_input_size)
+input_size = load_input(f"Výška a šírka vstupu [minimum {min_input_size}, default {min_input_size+2}]: ", int, min_input_size + 2, lambda v: int(v) >= min_input_size)
 
 input_shape = (input_depth, input_size, input_size)
 
