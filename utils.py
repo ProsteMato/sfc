@@ -119,12 +119,15 @@ def next_step(verbose):
 def skip_calculation_for_n_epochs():
     return load_input("Vynechať vypisovanie výpočtu pre n epocho [default 0]: ", int, 0)
     
-def load_input(text, callback, default):
+def load_input(text, callback, default, condition = None):
     i = input(text)
     if (i == ""):
         return default
     else:
-        return callback(i)
+        if condition is None or condition(i):
+            return callback(i)
+        else:
+            return load_input(f"Nesprávna hodnota '{i}' skúste znova. " + text, callback, default, condition)
     
 
 def binary_cross_entropy(y_true, y_pred):
@@ -141,8 +144,10 @@ def predict(network, input, verbose):
 
 def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_rate = 0.01, print_calculations = True, verbose = True):
     skip = 0
+    first_print_calculations = print_calculations
     for e in range(epochs):
-        print_calculations = not skip > 0
+        if first_print_calculations:
+            print_calculations = not skip > 0
         skip -= (skip > 0) * 1
         error = 0
         for x, y in zip(x_train, y_train):
